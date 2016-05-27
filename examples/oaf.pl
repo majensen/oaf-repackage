@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 #
 # Ornitine decarboxylase Antizyme Finder (OAF)
 # Copyright 2006-2008 Bekaert M <mbekaert@gmail.com>

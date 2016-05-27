@@ -21,7 +21,7 @@
 #     PREREQ_PM => {  }
 #     TEST_REQUIRES => {  }
 #     VERSION => q[1.0.6]
-#     dist => { SUFFIX=>q[.bz2], DIST_DEFAULT=>q[all tardist], COMPRESS=>q[bzip2] }
+#     dist => { COMPRESS=>q[bzip2], DIST_DEFAULT=>q[all tardist], SUFFIX=>q[.bz2] }
 
 # --- MakeMaker post_initialize section:
 
@@ -195,18 +195,18 @@ TO_INST_PM = Bio/Tools/BlastLocalTools.pm \
 	Bio/Tools/oaz.fs.hmm \
 	Bio/Tools/oaz.hmm
 
-PM_TO_BLIB = Bio/Tools/OAF.pm \
-	$(INST_LIB)/Bio/Tools/OAF.pm \
+PM_TO_BLIB = Bio/Tools/oaz.fs.hmm \
+	$(INST_LIB)/Bio/Tools/oaz.fs.hmm \
 	Bio/Tools/BlastLocalTools.pm \
 	$(INST_LIB)/Bio/Tools/BlastLocalTools.pm \
-	Bio/Tools/oaz.fasta \
-	$(INST_LIB)/Bio/Tools/oaz.fasta \
-	Bio/Tools/oaz.fs.hmm \
-	$(INST_LIB)/Bio/Tools/oaz.fs.hmm \
+	Bio/Tools/oaz.hmm \
+	$(INST_LIB)/Bio/Tools/oaz.hmm \
 	Bio/Tools/BlastTools.pm \
 	$(INST_LIB)/Bio/Tools/BlastTools.pm \
-	Bio/Tools/oaz.hmm \
-	$(INST_LIB)/Bio/Tools/oaz.hmm
+	Bio/Tools/oaz.fasta \
+	$(INST_LIB)/Bio/Tools/oaz.fasta \
+	Bio/Tools/OAF.pm \
+	$(INST_LIB)/Bio/Tools/OAF.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -429,12 +429,12 @@ POD2MAN = $(POD2MAN_EXE)
 
 manifypods : pure_all  \
 	Bio/Tools/BlastLocalTools.pm \
-	Bio/Tools/OAF.pm \
-	Bio/Tools/BlastTools.pm
+	Bio/Tools/BlastTools.pm \
+	Bio/Tools/OAF.pm
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
 	  Bio/Tools/BlastLocalTools.pm $(INST_MAN3DIR)/Bio::Tools::BlastLocalTools.$(MAN3EXT) \
-	  Bio/Tools/OAF.pm $(INST_MAN3DIR)/Bio::Tools::OAF.$(MAN3EXT) \
-	  Bio/Tools/BlastTools.pm $(INST_MAN3DIR)/Bio::Tools::BlastTools.$(MAN3EXT) 
+	  Bio/Tools/BlastTools.pm $(INST_MAN3DIR)/Bio::Tools::BlastTools.$(MAN3EXT) \
+	  Bio/Tools/OAF.pm $(INST_MAN3DIR)/Bio::Tools::OAF.$(MAN3EXT) 
 
 
 
@@ -461,22 +461,22 @@ clean_subdirs :
 
 clean :: clean_subdirs
 	- $(RM_F) \
-	  $(MAKE_APERL_FILE) $(BASEEXT).exp \
-	  so_locations core.[0-9][0-9] \
-	  tmon.out core.*perl.*.? \
-	  mon.out blibdirs.ts \
-	  $(BASEEXT).def perlmain.c \
-	  core.[0-9][0-9][0-9][0-9][0-9] core.[0-9][0-9][0-9][0-9] \
-	  $(BASEEXT).bso MYMETA.json \
-	  $(BOOTSTRAP) perl$(EXE_EXT) \
-	  $(BASEEXT).x *$(OBJ_EXT) \
-	  $(INST_ARCHAUTODIR)/extralibs.all MYMETA.yml \
-	  pm_to_blib.ts core \
-	  core.[0-9][0-9][0-9] perl.exe \
-	  *$(LIB_EXT) $(INST_ARCHAUTODIR)/extralibs.ld \
-	  perl lib$(BASEEXT).def \
-	  core.[0-9] *perl.core \
-	  pm_to_blib 
+	  perlmain.c $(INST_ARCHAUTODIR)/extralibs.ld \
+	  $(BASEEXT).bso *perl.core \
+	  $(BOOTSTRAP) $(BASEEXT).x \
+	  pm_to_blib.ts $(BASEEXT).exp \
+	  *$(OBJ_EXT) core.[0-9][0-9][0-9][0-9][0-9] \
+	  core.[0-9][0-9][0-9][0-9] mon.out \
+	  $(MAKE_APERL_FILE) tmon.out \
+	  core.[0-9][0-9][0-9] core.*perl.*.? \
+	  MYMETA.json $(INST_ARCHAUTODIR)/extralibs.all \
+	  perl$(EXE_EXT) core \
+	  blibdirs.ts core.[0-9][0-9] \
+	  core.[0-9] lib$(BASEEXT).def \
+	  *$(LIB_EXT) perl.exe \
+	  so_locations $(BASEEXT).def \
+	  pm_to_blib MYMETA.yml \
+	  perl 
 	- $(RM_RF) \
 	  blib 
 	- $(MV) $(FIRST_MAKEFILE) $(MAKEFILE_OLD) $(DEV_NULL)
@@ -491,7 +491,7 @@ realclean_subdirs :
 # Delete temporary files (via clean) and also delete dist files
 realclean purge ::  clean realclean_subdirs
 	- $(RM_F) \
-	  $(FIRST_MAKEFILE) $(MAKEFILE_OLD) 
+	  $(MAKEFILE_OLD) $(FIRST_MAKEFILE) 
 	- $(RM_RF) \
 	  $(DISTVNAME) 
 
@@ -869,12 +869,12 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  Bio/Tools/OAF.pm $(INST_LIB)/Bio/Tools/OAF.pm \
-	  Bio/Tools/BlastLocalTools.pm $(INST_LIB)/Bio/Tools/BlastLocalTools.pm \
-	  Bio/Tools/oaz.fasta $(INST_LIB)/Bio/Tools/oaz.fasta \
 	  Bio/Tools/oaz.fs.hmm $(INST_LIB)/Bio/Tools/oaz.fs.hmm \
+	  Bio/Tools/BlastLocalTools.pm $(INST_LIB)/Bio/Tools/BlastLocalTools.pm \
+	  Bio/Tools/oaz.hmm $(INST_LIB)/Bio/Tools/oaz.hmm \
 	  Bio/Tools/BlastTools.pm $(INST_LIB)/Bio/Tools/BlastTools.pm \
-	  Bio/Tools/oaz.hmm $(INST_LIB)/Bio/Tools/oaz.hmm 
+	  Bio/Tools/oaz.fasta $(INST_LIB)/Bio/Tools/oaz.fasta \
+	  Bio/Tools/OAF.pm $(INST_LIB)/Bio/Tools/OAF.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 
