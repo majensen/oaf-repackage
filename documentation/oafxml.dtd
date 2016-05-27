@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- oafxml: The root of any oafxml document. -->
+<!ELEMENT oafxml (analysis,(sequence)*)>
+<!ATTLIST oafxml version  (1.2) #REQUIRED>
+
+<!-- analysis -->
+<!ELEMENT analysis (program,date,parameter)>
+<!ATTLIST analysis comment CDATA "">
+
+<!ELEMENT program (prog-name,prog-version)>
+<!ELEMENT prog-name (#PCDATA)>
+<!ELEMENT prog-version (#PCDATA)>
+<!ELEMENT date ((day)?,(month)?,year)>		     
+<!ELEMENT day (#PCDATA)>
+<!ELEMENT month (#PCDATA)>
+<!ELEMENT year (#PCDATA)>
+<!ELEMENT parameter (evalue,table)>
+<!ELEMENT evalue (#PCDATA)>
+<!ELEMENT table (#PCDATA)>
+<!ATTLIST table comment CDATA "">
+
+<!-- sequence -->
+<!ELEMENT sequence (input,(output)*)>
+<!ATTLIST sequence 
+	comment CDATA ""
+	id ID #REQUIRED>
+
+<!-- input -->
+<!ELEMENT input ((organism)?,seq)>
+<!ATTLIST input comment CDATA "">
+
+<!ELEMENT organism (#PCDATA)>
+<!ATTLIST organism genbank CDATA "">
+
+<!ELEMENT seq (#PCDATA)>
+<!ATTLIST seq 
+	type  (rna|dna|prt) "dna"
+	strand CDATA ""
+	length CDATA #REQUIRED
+	circular  (circular|linear) #IMPLIED>
+
+<!-- output -->
+<!ELEMENT output (gene,cds,(frameshift)?)>
+<!ATTLIST output 
+	comment CDATA ""
+	id ID #REQUIRED>
+
+<!ELEMENT gene (coord,name,seq)>
+<!ATTLIST gene 
+	comment CDATA ""
+	id ID #REQUIRED>
+
+<!ELEMENT coord (#PCDATA)>
+<!ATTLIST coord
+	start CDATA ""
+	5prime CDATA ""
+	3prime CDATA "">
+
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT cds (coord,name,note,product,seq,(model)+)>
+<!ATTLIST cds 
+	comment CDATA ""
+	id ID #REQUIRED>
+
+<!ELEMENT note (#PCDATA)>
+<!ELEMENT product (#PCDATA)>
+<!ELEMENT model (#PCDATA)>
+<!ATTLIST model hmm CDATA #REQUIRED>
+
+<!ELEMENT frameshift ((sd)?,seq,(asite)?,(psite)?,(downstream)?)>
+<!ATTLIST frameshift 
+	comment CDATA ""
+	id ID #REQUIRED
+	evalue CDATA "">
+
+<!ELEMENT sd (#PCDATA)>
+<!ATTLIST sd spacer CDATA #REQUIRED>
+
+<!ELEMENT psite (#PCDATA)>
+<!ATTLIST psite codon CDATA "">
+
+<!ELEMENT asite (#PCDATA)>
+<!ATTLIST asite codon CDATA "">
+
+<!ELEMENT downstream (#PCDATA)>

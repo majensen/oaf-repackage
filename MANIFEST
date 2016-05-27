@@ -1,0 +1,22 @@
+LICENSE
+MANIFEST			This list of files
+Makefile.PL
+INSTALL
+Bio/Tools/oaz.hmm
+Bio/Tools/oaz.fs.hmm
+Bio/Tools/oaz.fasta
+Bio/Tools/OAF.pm
+Bio/Tools/BlastLocalTools.pm
+Bio/Tools/BlastTools.pm
+examples/oafxml.dtd
+examples/oaz.hmm
+examples/oaz.fs.hmm
+examples/oaz.fasta
+examples/oaf.pl
+examples/test.in.fasta
+examples/test.ortho.fasta
+documentation/manual.html
+documentation/tutorial.html
+documentation/api.html
+documentation/oafxml.dtd
+

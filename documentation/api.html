@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>
+      API | OAF manual
+    </title>
+    <style type="text/css">
+/*<![CDATA[*/
+body {
+  font-family: sans-serif;
+  font-size: 11pt;
+}
+li {
+  margin: 1em 0em;
+}
+h2 {
+  font-variant: small-caps;
+  font-size: 12pt;
+  color: #700000;
+  margin-top: 1em;
+  margin-bottom: 0.2em;
+}
+pre.code {
+  background: #f0f0f0;
+  font-family: courier;
+  padding: 0.4em;
+}
+dl {
+  margin-left: 2em;
+}
+dt {
+  font-weight: bold;
+}
+dd {
+  margin-bottom: 0.2em;
+}
+.section {
+  margin-left: 2em
+}
+.address {
+  text-align: left;
+  float: left;
+  margin-right: 0.4em;
+  padding: 0.4em;
+}
+.left {
+  text-align: left;
+  float: left;
+  margin-right: 0.4em;
+  padding: 0.4em;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.right {
+  text-align: right;
+  float: right;
+  margin-left: 0.4em;
+  padding: 0.4em;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.header {
+  background-color: #f0f0f0;
+  float: none;
+  height: 2em;
+}
+/*]]>*/
+  </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="left">
+        OAF.PM / API
+      </div>
+      <div class="right">
+        January 2008
+      </div>
+      <div class="right">
+        OAF 1.0.6
+      </div>
+      <div class='right'>
+        OAF Manual
+      </div>
+    </div>
+    <ul>
+      <li>
+        <h2>
+          Name
+        </h2>
+        <div class="section">
+          <strong>Bio::Tools::OAF</strong> - Ornithine decarboxylase Antizyme Finder (bioperl library)
+        </div>
+      </li>
+      <li>
+        <h2>
+          Synopsis
+        </h2>
+        <div class="section">
+          Take a sequence object from, say, an inputstream, and find an eukaryotic ornithine decarboxylase antizyme. HMM profiles are used in order to identify location, frame and orientation of such gene.<br />
+          <br />
+          Creating the OAF object, e.g.:<br />
+          <br />
+          <pre class="code">my $inputstream = Bio::SeqIO-&gt;new( -file =&gt; &#39;seqfile&#39;, -format =&gt; &#39;fasta&#39; );
+my $seqobj = $inputstream-&gt;next_seq();
+my $OAF_obj = Bio::Tools::OAF-&gt;new( $seqobj );</pre><br />
+          Obtain an array holding the start point, the stop point, the DNA sequence and amino-acid sequence, eg:<br />
+          <br />
+          <pre class="code">my $array_ref = $OAF_obj-&gt;{&#39;_result&#39;} if ( $OAF_obj-&gt;find() );</pre><br />
+          Display result in genbank format, eg:<br />
+          <pre class="code">$OAF_obj-&gt;show( &#39;genbank&#39; );</pre>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Description
+        </h2>
+        <div class="section">
+          Bio::Tools::OAF is a featherweight object for identifying ornithine decarboxylase antizymes. The sequences should not be longer than 20kb. The returned array includes the location, the sequence and the statistic for the putative ornithine decarboxylase antizyme gene. Fully functional with mRNA and EST sequence, no intron allowed.<br />
+          <br />
+          See Synopsis above for the object creation code.<br />
+        </div>
+      </li>
+      <li>
+        <h2>
+          Driver Script
+        </h2>
+        <div class="section">
+          <pre class="code">#!/usr/bin/perl -w
+use strict;
+
+use Bio::Seq;
+use Bio::Tools::OAF;
+
+my $inseq = Bio::SeqIO-&gt;new( &#39;-file&#39; =&gt; &quot;&lt; $yourfile&quot;, -format =&gt; &#39;fasta&#39; );
+while (my $seq = $inseq-&gt;next_seq) {
+  my $OAF_obj = Bio::Tools::OAF-&gt;new( $seq, 11 );
+  if ( $OAF_obj-&gt;find() ) {
+    $OAZ_obj-&gt;show( &#39;genbank&#39; );
+  } else {
+    print &quot;  no hit!\n&quot;;
+  }
+}</pre>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Requirements
+        </h2>
+        <div class="section">
+          To use this module you need Bioperl (<a href="http://www.bioperl.org/">http://www.bioperl.org/</a>) modules, HMMER distribution (<a href="http://hmmer.janelia.org/">http://hmmer.janelia.org/</a>), Blast (<a href="http://www.ncbi.nlm.nih.gov/BLAST/download.shtml">http://www.ncbi.nlm.nih.gov/BLAST/download.shtml</a>) and FASTA distribution (<a href="ftp://ftp.ebi.ac.uk/pub/software/unix/fasta/">ftp://ftp.ebi.ac.uk/pub/software/unix/fasta/</a>) if using whole genome search.<br />
+        </div>
+      </li>
+      <li>
+        <h2>
+          Bio::Tools::OAF-&gt;new (function)
+        </h2>
+        <div class="section">
+          <dl>
+            <dt>
+              Title
+            </dt>
+            <dd>
+              new
+            </dd>
+            <dt>
+              Usage
+            </dt>
+            <dd>
+              <pre class="code">my $nb = Bio::Tools::OAF-&gt;new( $seqobj, $table, $aug, $hmm, $fs );</pre>
+            </dd>
+            <dt>
+              Function
+            </dt>
+            <dd>
+              Initialize OAF object.
+            </dd>
+            <dt>
+              Returns
+            </dt>
+            <dd>
+              An OAF object.
+            </dd>
+            <dt>
+              Args
+            </dt>
+            <dd>
+              <strong>$seqobj</strong> (mandatory) <em>PrimarySeqI</em> object (dna or rna),<br />
+              <strong>$table</strong> (optional) translation table/genetic code number (default 1),<br />
+              <strong>$aug</strong> (optional) use other start codon than AUG (default 0),<br />
+              <strong>$hmm</strong> (optional) path to hmm profiles by default OAF looks at ./oaz.hmm,<br />
+              <strong>$fs</strong> (optional) path to frameshift hmm profiles by default OAF looks at ./oaz.fs.hmm,<br />
+            </dd>
+          </dl>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Bio::Tools::OAF-&gt;find (function)
+        </h2>
+        <div class="section">
+          <dl>
+            <dt>
+              Title
+            </dt>
+            <dd>
+              find
+            </dd>
+            <dt>
+              Usage
+            </dt>
+            <dd>
+              <pre class="code">my $bool = $OAF_obj-&gt;find( $evalue, $strand, $start, $end );</pre>
+            </dd>
+            <dt>
+              Function
+            </dt>
+            <dd>
+              Identify ornithine decarboxylase antizyme protein.
+            </dd>
+            <dt>
+              Returns
+            </dt>
+            <dd>
+              A boolean. If a release factor is found, the detailed result is then store in the table $OAF_obj-&gt;{'_result'}, the elements of the current array are:
+<pre class="code">my @CDSData = $OAF_obj-&gt;{'_result'};
+print "$CDSData[0]\n";  # detailed position of the sequence [string]
+print "$CDSData[1]\n";  # start position [integer]
+print "$CDSData[2]\n";  # stop position [integer]
+print "$CDSData[3]\n";  # strand (1 direct, -1 reverse) [integer]
+print "$CDSData[4]\n";  # Protein name [string]
+print "$CDSData[5]\n";  # Gene Name [string]
+print "$CDSData[6]\n";  # Remarques and HMMs e-values [string]
+print "$CDSData[7]\n";  # DNA sequence [string]
+print "$CDSData[8]\n";  # Protein sequence [string]</pre>
+              The HMMs results are store in the tables $OAF_obj-&gt;{'_hmmfs'} and $OAF_obj-&gt;{'_hmmoaz'}:
+<pre class="code">my @HMMData0 = $OAF_obj-&gt;{'_hmmfs'};  # HMM details for the 5' part of the sequence
+print "HMMData0[0]\n";  # HMM profile name [string]
+print "HMMData0[1]\n";  # OAZ paralog id [integer]
+print "HMMData0[2]\n";  # HMM score [integer]
+print "HMMData0[3]\n";  # start position [integer]
+print "HMMData0[4]\n";  # stop position [integer]
+print "HMMData0[5]\n";  # strand (1 direct, -1 reverse) [integer]
+
+my @HMMData1 = $OAF_obj-&gt;{'_hmmoaz'};  # HMM details for the 3' part of the sequence
+print "HMMData1[0]\n";  # HMM profile name [string]
+print "HMMData1[1]\n";  # OAZ paralog id [integer]
+print "HMMData1[2]\n";  # HMM score [integer]
+print "HMMData1[3]\n";  # start position [integer]
+print "HMMData1[4]\n";  # stop position [integer]
+print "HMMData1[5]\n";  # strand (1 direct, -1 reverse) [integer]</pre>
+              The sequences issues are separately store:
+<pre class="code">print '5\' of the CDS is missing: ', $OAF_obj-&gt;{'_no5'} ? 'yes' : 'no', "\n";
+print '3\' of the CDS is missing: ', $OAF_obj-&gt;{'_no3'} ? 'yes' : 'no' . "\n";
+print 'The position of the initiation codon is identified: ', $OAF_obj-&gt;{'_noaug'} ? 'no' : 'yes', "\n";</pre>
+            </dd>
+            <dt>
+              Args
+            </dt>
+            <dd>
+              <strong>$evalue</strong> (optional) set the E-value (expected) threshold. Default is 1e-40,<br />
+              <strong>$strand</strong> (optional) strand where search should be done (1 direct, -1 reverse or 0 both). Default is 0,<br />
+              <strong>$start</strong> (optional) coordinate of the first nucleotide. Useful for coordinate calculation when first is not 1. Default is 1,<br />
+              <strong>$end</strong> (optional) coordinate of the last nucleotide. Default is the sequence length.
+            </dd>
+          </dl>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Bio::Tools::OAF-&gt;show (function)
+        </h2>
+        <div class="section">
+          <dl>
+            <dt>
+              Title
+            </dt>
+            <dd>
+              show
+            </dd>
+            <dt>
+              Usage
+            </dt>
+            <dd>
+              <pre class="code">$OAF_obj-&gt;show( $outstyle );</pre>
+            </dd>
+            <dt>
+              Function
+            </dt>
+            <dd>
+              Print result in various style.
+            </dd>
+            <dt>
+              Returns
+            </dt>
+            <dd>
+              none.
+            </dd>
+            <dt>
+              Args
+            </dt>
+            <dd>
+              <strong>$outstyle</strong> (mandatory) &#39;fasta&#39;, &#39;genbank&#39;, &#39;raw&#39; or &#39;xml&#39; style. <strong>Note</strong>: the XML style requires the call of the function with &#39;xml-begin&#39; to initialise the output, and &#39;xml-end&#39; to close the output.
+            </dd>
+          </dl>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Bio::Tools::OAF-&gt;getHits (function)
+        </h2>
+        <div class="section">
+          <dl>
+            <dt>
+              Title
+            </dt>
+            <dd>
+              getHits
+            </dd>
+            <dt>
+              Usage
+            </dt>
+            <dd>
+              <pre class="code">my @hits = Bio::Tools::OAF-&gt;getHits( $evalue, $seq, $ref );</pre>
+            </dd>
+            <dt>
+              Function
+            </dt>
+            <dd>
+              Quick localization of OAZs (use FASTA).
+            </dd>
+            <dt>
+              Returns
+            </dt>
+            <dd>
+              Array of hits start/stop positions:<pre class="code">print join( "\n", @hits );</pre>
+            </dd>
+            <dt>
+              Args
+            </dt>
+            <dd>
+              <strong>$evalue</strong> (mandatory) set the E-value threshold,<br />
+              <strong>$seq</strong> (mandatory) <em>PrimarySeqI</em> object (dna or rna),<br />
+              <strong>$ref</strong> (optional) path to fasta reference file, by default OAF look at ./OAZ.fasta,<br />
+            </dd>
+          </dl>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Bio::Tools::OAF-&gt;ortholog (function)
+        </h2>
+        <div class="section">
+          <dl>
+            <dt>
+              Title
+            </dt>
+            <dd>
+              ortholog
+            </dd>
+            <dt>
+              Usage
+            </dt>
+            <dd>
+              <pre class="code">my $bool = Bio::Tools::OAF-&gt;ortholog( $file, $evalue, $format, $aug, $remote, $hmm, $fs, $bank, $filter, $verbose );</pre>
+            </dd>
+            <dt>
+              Function
+            </dt>
+            <dd>
+              Full BLAST search...
+            </dd>
+            <dt>
+              Returns
+            </dt>
+            <dd>
+               A boolean.
+            </dd>
+            <dt>
+              Args
+            </dt>
+            <dd>
+              <strong>$file</strong> (mandatory) name of the file of protein sequence(s) (FASTA file format),<br />
+              <strong>$evalue</strong> (optional) set the E-value threshold,<br />
+              <strong>$format</strong> (optional) output format: &#39;fasta&#39;, &#39;genbank&#39;, &#39;raw&#39; or &#39;xml&#39; style, <br />
+              <strong>$aug</strong> (optional) use other start codon than AUG (default 0),<br />
+              <strong>$remote</strong> (optional) Configure the program to use the remote BLAST server of the NCBI (1) rather than with a local BLAST (0). By default the local Blast is used (0),<br />
+              <strong>$hmm</strong> (optional) path to hmm profiles by default OAF looks at ./oaz.hmm,<br />
+              <strong>$fs</strong> (optional) path to frameshift hmm profiles by default OAF looks at ./oaz.fs.hmm,<br />
+              <strong>$bank</strong> (optional) set the database used by the ortho[log] mode. If the remote NCBI option in set, this set the database used for the initial blast search. Available databases include 'refseq_rna' (Complete genomes and chromosomes from the NCBI Reference Sequence project), 'est' (Sequences from EST divisions). By default 'est' is used,<br />
+              <strong>$filter</strong> (optional) set the filter. Normally OAF.pl show all sequences identified whether the sequence may be the putative/ambiguous, because of a truncated EST, a sequence error or a missing -1 frameshift. By default there is no filter (0), you can filter for the non-ambiguous hits only (1) or the ambiguous hits only (2),<br />
+              <strong>$verbose</strong> (optional) print more possibly useful stuff, such as the individual scores for each sequence.
+            </dd>
+          </dl>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Authors
+        </h2>
+        <div class="section">
+          This software and documentation are licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License. To view a copy of this license, visit <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">http://creativecommons.org/licenses/by-nc-sa/3.0/</a> or send a letter to Creative Commons, 543 Howard Street, 5th Floor, San Francisco, California, 94105, USA.<br />
+          <div class="address">
+            <pre>Micha&euml;l Bekaert
+School of Biology and Environmental Science
+University Collele Dublin
+Belfield
+Dublin 4
+Ireland</pre>
+          </div>
+          <div class="address">
+            <pre>Ivaylo P. Ivanov
+Bioscience Institute
+University College Cork
+Cork
+Ireland</pre>
+          </div>
+          <div class="address">
+            <pre>John F. Atkins
+Human Genetics Department
+University of Utah
+Salt Lake City
+Utah
+USA</pre>
+          </div>
+          <div class="address">
+            <pre>Pavel V. Baranov
+Biochemistry Department
+University College Cork
+Cork
+Ireland</pre>
+          </div><br />
+        </div>
+      </li>
+    </ul>
+  </body>
+</html>

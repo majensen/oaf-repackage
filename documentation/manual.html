@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>
+      oaf.pl | OAF manual
+    </title>
+    <style type="text/css">
+/*<![CDATA[*/
+body {
+  font-family: sans-serif;
+  font-size: 11pt;
+}
+li {
+  margin: 1em 0em;
+}
+h2 {
+  font-variant: small-caps;
+  font-size: 12pt;
+  color: #700000;
+  margin-top: 1em;
+  margin-bottom: 0.2em;
+}
+pre.code {
+  background: #f0f0f0;
+  font-family: courier;
+  padding: 0.4em;
+}
+dl {
+  margin-left: 2em;
+}
+dt {
+  font-weight: bold;
+}
+dd {
+  margin-bottom: 0.2em;
+}
+.section {
+  margin-left: 2em
+}
+.address {
+  text-align: left;
+  float: left;
+  margin-right: 0.4em;
+  padding: 0.4em;
+}
+.left {
+  text-align: left;
+  float: left;
+  margin-right: 0.4em;
+  padding: 0.4em;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.right {
+  text-align: right;
+  float: right;
+  margin-left: 0.4em;
+  padding: 0.4em;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.header {
+  background-color: #f0f0f0;
+  float: none;
+  height: 2em;
+}
+/*]]>*/
+  </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="left">
+        OAF.PL
+      </div>
+      <div class="right">
+        January 2008
+      </div>
+      <div class="right">
+        OAF 1.0.6
+      </div>
+      <div class="right">
+        OAF Manual
+      </div>
+    </div>
+    <ul>
+      <li>
+        <h2>
+          Name
+        </h2>
+        <div class="section">
+          <strong>oaf.pl</strong> - Ornithine decarboxylase Antizyme Finder
+        </div>
+      </li>
+      <li>
+        <h2>
+          Synopsis
+        </h2>
+        <div class="section">
+          <strong>oaf.pl</strong> <em>[options]</em> <em>mode</em><br />
+        </div>
+      </li>
+      <li>
+        <h2>
+          Description
+        </h2>
+        <div class="section">
+          <strong>Ornithine decarboxylase Antizyme Finder</strong> (OAF) is a specialized software tool for identification of genes encoding antizyme and for annotating the sites of programmed ribosomal frameshifting utilized in antizyme genes expression.<br />
+          <strong>oaf.pl</strong> is an implementation the <strong>oaf.pm</strong> bioperl module. <strong>oaf.pl</strong> takes a sequence from an input stream and finds an eukaryotic ornithine decarboxylase antizyme. As input, it takes nucleotide or protein sequences in FASTA format or Genbank accession numbers. HMM profiles are used in order to identify location, frame and orientation of such gene.<br />
+          <br />
+        </div>
+      </li>
+      <li>
+        <h2>
+          Modes
+        </h2>
+        <div class="section">
+          <dl>
+            <dt>
+              --sequence=&lt;sequence file&gt;
+            </dt>
+            <dd>
+              Use a FASTA file (with one or more DNA/RNA sequences) as input.<br />
+            </dd>
+            <dt>
+              --genbank=&lt;accession&gt;
+            </dt>
+            <dd>
+              Enable a search in GenBank. Provide an accession number rather than a sequence file.<br />
+            </dd>
+            <dt>
+              --ortho=&lt;aa sequences file&gt;
+            </dt>
+            <dd>
+              Start by searching for similar protein sequence(s) (FASTA file format) in a database, and use those as queries for OAF.<br />
+            </dd>
+          </dl>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Options
+        </h2>
+        <div class="section">
+          <dl>
+            <dt>
+              -a
+            </dt>
+            <dd>
+              Force the use of alternative start codons, according to the current genetic code table. Otherwise, ATG is the only allowed initiation codon.<br />
+            </dd>
+            <dt>
+              --expect
+            </dt>
+            <dd>
+              Set the E-value threshold. This setting specifies the statistical significance threshold for reporting matches against database sequences. The default value (1e-40) means that 1e-40 such match is expected to be found merely by chance, according to the stochastic model of Karlin and Altschul (1990). If the statistical significance ascribed to a match is greater than the EXPECT threshold, the match will not be reported. Lower EXPECT thresholds are more stringent, leading to fewer chance matches being reported.<br />
+            </dd>
+            <dt>
+              --format
+            </dt>
+            <dd>
+              Available output format codes include &#39;fasta&#39; (FASTA format); &#39;genbank&#39; (Genbank format); &#39;raw&#39; (raw sequence, no other information); &#39;xml&#39; (XML format). By default the FASTA format is used. The Document Type Definition (DTD) for the XML format is available <a href="oafaxml.dtd" title="DTD">here</a>.<br />
+            </dd>
+            <dt>
+              --name
+            </dt>
+            <dd>
+              Overwrite the sequence name by the provided one. Otherwise the program will use the sequence name from as input.<br />
+            </dd>
+            <dt>
+              --table
+            </dt>
+            <dd>
+              Specify a genetic code table used for the translation of the query. By default, for the <em>genbank</em> and <em>ortho</em> modes, the genetic code table is used according to genbank annotation. The <em>sequence</em> mode uses the Standard Code (1). Available tables, see <a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?mode=c" title="Genetic Code">http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?mode=c</a><br />
+            </dd>
+          </dl>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Expert Options
+        </h2>
+        <div class="section">
+          <dl>
+            <dt>
+              --bank
+            </dt>
+            <dd>
+              Set the database used by the ortho[log] mode. For the <em>remote</em> BLAST at NCBI (when -r is set) the available databases are either &#39;refseq_rna&#39; (correspondes to NCBI Reference mRNA sequences database) or &#39;est&#39; (sequences from EST divisions). By default &#39;est&#39; is used.<br />
+            </dd>
+            <dt>
+              -d
+            </dt>
+            <dd>
+              Turn off the pre-filter for long sequences and use user-provided sequence directly for OAZ search. Normally, the sequences of more than 20kb are pre-filtered by a local fasta search in order to minimize the number of potential OAZ encoding sequences. This option will usually increase the sensitivity of the search, if the OAZ is VERY divergent, but that will dramatically increase the time and memory used (so don&#39;t do it without good reason!)<br />
+            </dd>
+            <dt>
+              --filter
+            </dt>
+            <dd>
+              Filter the sequences shown. Normally OAF.pl show all sequences identified icluding putative/ambiguous which correspond to ESTs containing truncated CDS, sequence errors or a missing +1 frameshift. By default there is no filter (0), you can filter for the non-ambiguous hits only (1) or the ambiguous hits only (2).<br />
+            </dd>
+            <dt>
+              -r
+            </dt>
+            <dd>
+              Configure the program to use the remote BLAST server of the NCBI rather than with a local BLAST.<br />
+            </dd>
+            <dt>
+              -v
+            </dt>
+            <dd>
+              Print more possibly useful stuff, such as the individual scores for each sequence.<br />
+            </dd>
+          </dl>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Examples
+        </h2>
+        <div class="section">
+          <dl>
+            <dt>
+              ./oaf.pl --sequence=example.fasta
+            </dt>
+            <dd>
+              Simple request, use an FASTA format file (with one or more DNA/RNA sequences) as request.<br />
+            </dd>
+            <dt>
+              ./oaf.pl -a --table=6 --name=my_sequence --sequence=example.fasta
+            </dt>
+            <dd>
+              Do the same search, but force the <em>Ciliate nuclear</em> genetic code to be used. Allow the alternative start codon and rename the output sequence to &#39;my_sequence&#39;<br />
+            </dd>
+            <dt>
+              ./oaf.pl --format=xml --genbank=NM_004152
+            </dt>
+            <dd>
+              Retrieve the sequence NM_004152 from GenBank, find an OAZ gene and show an XML report.<br />
+            </dd>
+            <dt>
+              ./oaf.pl --orhto=example.aa
+            </dt>
+            <dd>
+              Use the protein sequences (FASTA format) to retrieve putative ortholog sequence and use them as query.<br />
+            </dd>
+            <dt>
+              ./oaf.pl --expect=2e-5 -r --bank=refseq_rna --ortho=example.aa
+            </dt>
+            <dd>
+              Use the NCBI remote blast server, and the &#39;refseq_rna&#39; database to retrieve the putative ortholog sequences. Set the expected value (E-value) at 2e-5.<br />
+            </dd>
+          </dl>
+        </div>
+      </li>
+      <li>
+        <h2>
+          Authors
+        </h2>
+        <div class="section">
+          This software and documentation are licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License. To view a copy of this license, visit <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">http://creativecommons.org/licenses/by-nc-sa/3.0/</a> or send a letter to Creative Commons, 543 Howard Street, 5th Floor, San Francisco, California, 94105, USA.<br />
+          <div class="address">
+            <pre>Micha&euml;l Bekaert
+School of Biology and Environmental Science
+University Collele Dublin
+Belfield
+Dublin 4
+Ireland</pre>
+          </div>
+          <div class="address">
+            <pre>Ivaylo P. Ivanov
+Bioscience Institute
+University College Cork
+Cork
+Ireland</pre>
+          </div>
+          <div class="address">
+            <pre>John F. Atkins
+Human Genetics Department
+University of Utah
+Salt Lake City
+Utah
+USA</pre>
+          </div>
+          <div class="address">
+            <pre>Pavel V. Baranov
+Biochemistry Department
+University College Cork
+Cork
+Ireland</pre>
+          </div><br />
+        </div>
+      </li>
+    </ul>
+  </body>
+</html>

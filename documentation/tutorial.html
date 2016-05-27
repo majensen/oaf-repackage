@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>
+      Tutorial | OAF manual
+    </title>
+<style type="text/css">
+/*<![CDATA[*/
+body {
+  font-family: sans-serif;
+  font-size: 11pt;
+}
+li {
+  margin: 1em 0em;
+}
+h2 {
+  font-variant: small-caps;
+  font-size: 12pt;
+  color: #700000;
+  margin-top: 1em;
+  margin-bottom: 0.2em;
+}
+pre.code {
+  background: #f0f0f0;
+  font-family: courier;
+  padding: 0.4em;
+}
+dl {
+  margin-left: 2em;
+}
+dt {
+  font-weight: bold;
+}
+dd {
+  margin-bottom: 0.2em;
+}
+.section {
+  margin-left: 2em
+}
+.address {
+  text-align: left;
+  float: left;
+  margin-right: 0.4em;
+  padding: 0.4em;
+}
+.left {
+  text-align: left;
+  float: left;
+  margin-right: 0.4em;
+  padding: 0.4em;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.right {
+  text-align: right;
+  float: right;
+  margin-left: 0.4em;
+  padding: 0.4em;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.header {
+  background-color: #f0f0f0;
+  float: none;
+  height: 2em;
+}
+/*]]>*/
+</style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="left">
+        Tutorial
+      </div>
+      <div class="right">
+        January 2008
+      </div>
+      <div class="right">
+        OAF 1.0.6
+      </div>
+      <div class="right">
+        OAF Manual
+      </div>
+    </div>
+    <ul>
+      <li>
+        <h2>
+          Description
+        </h2>
+        <div class="section">
+          <strong>Ornithine decarboxylase Antizyme Finder (OAF)</strong> is a software tool for identification of genes encoding eukaryotic ornithine decarboxylase antizymes.<br />
+          <strong>oaf.pl</strong> is an implementation of the <strong>oaf.pm</strong> bioperl module. <strong>oaf.pl</strong> takes a sequence from an input stream and finds an eukaryotic ornithine decarboxylase antizyme. As input, it takes nucleotide or protein sequences in fasta format or Genbank accession numbers. HMM profiles are used in order to identify location, frame and orientation of such gene.<br />
+          <br />
+        </div>
+      </li>
+      <li>
+        <h2>
+          Install
+        </h2>
+        <div class="section">
+          Download, then unpack the tar file. For example:
+          <pre class="code">bunzip2 oaf-1.0.6.tar.bz2
+tar xvf oaf-1.0.6.tar
+cd oaf-1.0.6</pre>
+          Now issue the make commands:
+          <pre class="code">perl Makefile.PL
+make            
+sudo make install</pre>
+        To &#39;make install&#39; you need write permission in the perl5/site_perl/ source area. Quite often this will require you becoming root, so you will want to talk to your systems manager if you don&#39;t have the necessary privileges.<br />
+        </div>
+      </li>
+      <li>
+        <h2>
+          System Requirements
+        </h2>
+        <div class="section">
+          <ul>
+            <li>perl 5.005 or later.<br />
+            </li>
+            <li>Bioperl modules: OAF uses functionality provided in Bioperl modules. (see <a href="http://www.bioperl.org/">http://www.bioperl.org/</a>)<br />
+            </li>
+            <li>HMMER is mandatory since OAF is base on HMM profiles. (see <a href="http://hmmer.janelia.org/">http://hmmer.janelia.org/</a>)<br />
+            </li>
+            <li>FASTA is mandatory if you plan to use sequence longer than 20 kb. (see <a href="ftp://ftp.ebi.ac.uk/pub/software/unix/fasta/">ftp://ftp.ebi.ac.uk/pub/software/unix/fasta/</a>)<br />
+            </li>
+            <li>BLAST is mandatory if you plan to search through a database, except if you use the NCBI remote BLAST server. (see <a href="http://www.ncbi.nlm.nih.gov/BLAST/download.shtml">http://www.ncbi.nlm.nih.gov/BLAST/download.shtml</a>)<br />
+            </li>
+          </ul>After installing HMMER, FASTA and BLAST packages on your system, you may edit the environmental variable $HMMERDIR, $FASTADIR and $BLASTDIR or your $PATH variable to point to the HMMER, FASTA and BLAST directories repectively. Ensure that users have execute privileges for those programs.<br />
+        </div>
+      </li>
+      <li>
+        <h2>
+          Quick start
+        </h2>
+        <div class="section">
+          For newcomers and people who want to quickly evaluate whether this package is worth using in the first place, we have a very simple application which allows easy access to OAF&#39;s functionality in an easy to use manner. The Bio::Tools::OAZ module provides all the functions. For example, this example will retrieve a OAZ gene from a single sequence file and write it out in GenBank format.<br />
+          <br />
+          Example of FASTA format:
+          <pre class="code">&gt;my_sequence
+TGAACCTCTGCGACTTATCCGCTGAACCTCACTTTGCCGCAGGGAGGCACTGAACAGAGAAACTGCCTTG
+TAACAGGTCCCGCCCCTCTCTCTACTCCCTTTCTTATATCAAGAGGGGAAAAACACGGAACTATCTCTAT
+CCATTCTGGTCACCATTCGCCTATTACCTCTACTGTTACAAATACCGGATCACCCTCCGGGAGAAGATGC
+TGCCTTGTTGTTACAAAAGCATCACTTACAAGGAACAGGAGGACCTGACTCTCCGGCCCCATTGCTGCCT
+CCCGTGCTCCTGCCTCCCGTGCTCCTGCCTCCAGTGCTCCTGAGTCCCTAGGAGGCCTCCAGGTGGGTAG
+GAGCACTGCACAGGAAAAAGACCACAGCCAGCTTAAAGAACTCTATTCAGCTGGGAACCTGACAGTGCTA
+TCAACTGACCCCCTGCTTCACCAAGATCCAGTTCAGTTAGACTTCCACTTTCGTCTTACCCCCCATTCCT
+CTGCTCATTGGCACGGCCTTCTGTGTGATCACCGACTCTTCCTGGATATCCCATATCAGGCCTTGGATCA
+AGGCAACCGAGAAAGCTTGACAGCAACACTGGAGTATGTGGAGGAGAAAACCAATGTGGACTCTGTGTTT
+GTGAACTTCCAAATCGATCGGAAGGACAGAGGTGCCCTGCTGCGAGCCTTTAGCTACATGGGCTTCGAGG
+TGGTTAGACCAGATCATCCTGCCCTCCCTCCCTGGGACAATGTCATCTTCATGGTGTATCCCCTTGAAAG
+GGACCTTGGCCACCCTGGCCAGTGAGCCTCCCTAAACATGTTCCATCTCTGTGAGGGGTTGGAAACCTCA
+ACACACGGGACTCTGAGGCCCAGGATGTGATTTAAGATACTTCCATCCTAGGAAATAAAGGGTAGTGCAA
+TC</pre>
+          Your data set should include at least one distinct DNA or RNA sequence and the sequence should be in FASTA format. A sequence in FASTA format consists of a single-line description, followed by lines of sequence data. The first character of the description line is a greater-than (&quot;&gt;&quot;) symbol in the first column. Lower-case and upper-case letters are both accepted. The full standard IUPAC nucleic acid code is not supported: only A, C, G, T and U symbols are recognized. Numerical digits 0, ..., 9, - and dot . symbols are not accepted.<br />
+          <br />
+          Example of command-line:
+          <pre class="code">./oaf.pl --format=genbank --sequence=myseq.fasta</pre>
+          Example of result:
+          <pre class="code">     gene            207..795
+                     /locus_tag=&quot;my_sequence&quot;
+                     /gene=&quot;OAZ3&quot;
+     CDS             join(207..320,322..795)
+                     /gene=&quot;OAZ3&quot;
+                     /locus_tag=&quot;my_sequence&quot;
+                     /note=&quot;OAZ3 ORF0: 1.3e-18 ORF1: 9.9e-129&quot;
+                     /inference=&quot;FS site: 1&quot;
+                     /ribosomal_slippage
+                     /codon_start=1
+                     /transl_table=1
+                     /product=&quot;Ornithine decarboxylase antizyme 3&quot;
+                     /translation=&quot;MLPCCYKSITYKEQEDLTLRPHCCLPCSCLPCSCLQCSESLGGL
+                     QVGRSTAQEKDHSQLKELYSAGNLTVLSTDPLLHQDPVQLDFHFRLTPHSSAHWHGLL
+                     CDHRLFLDIPYQALDQGNRESLTATLEYVEEKTNVDSVFVNFQIDRKDRGALLRAFSY
+                     MGFEVVRPDHPALPPWDNVIFMVYPLERDLGHPGQ&quot;</pre>
+          For each sequence, Ornithine decarboxylase Antizyme Finder (OAF) returns a putative Ornithine decarboxylase Antizyme (OAZ). For each sequence, the result is formatted as a <strong>FASTA format</strong>, a <strong>GenBank entry fragment</strong>, a <strong>raw sequence</strong> or an <strong>XML record</strong> with a <a href="oafxml.dtd">Document Type Definition (DTD)</a>.<br />
+          <br />
+          If no OAZ is detected, then the message <strong>No Hit</strong> is displayed.<br />
+          <br />
+        </div>
+      </li>
+      <li>
+        <h2>
+          Advanced Query
+        </h2>
+        <div class="section">
+          Accessing sequence data from the GenBank databases is straightforward. Data can be accessed by means of the sequence&#39;s accession number or id. For retrieving data from genbank, for example, the command could be as follows:
+          <pre class="code">./oaf.pl --format=xml --genbank=NM_004152</pre>
+          Example of result:
+          <pre class="code">&lt;oafxml version=&quot;1.2&quot;&gt;
+ &lt;analysis&gt;
+  &lt;program&gt;
+   &lt;prog-name&gt;OAF.pm&lt;/prog-name&gt;
+   &lt;prog-version&gt;1.0.1&lt;/prog-version&gt;
+  &lt;/program&gt;
+  &lt;date&gt;
+   &lt;day&gt;8&lt;/day&gt;
+   &lt;month&gt;3&lt;/month&gt;
+   &lt;year&gt;2007&lt;/year&gt;
+  &lt;/date&gt;
+  &lt;parameter&gt;
+   &lt;evalue&gt;1e-40&lt;/evalue&gt;
+   &lt;table&gt;1&lt;/table&gt;
+  &lt;/parameter&gt;
+ &lt;/analysis&gt;
+ &lt;sequence id=&quot;NM_004152.seq&quot;&gt;
+  &lt;input&gt;
+   &lt;seq type=&quot;dna&quot; length=&quot;1146&quot;&gt;TTT<em> [cut] </em>CGA&lt;/seq&gt;
+  &lt;/input&gt;
+  &lt;output id=&quot;NM_004152&quot;&gt;
+   &lt;gene id=&quot;NM_004152.1&quot;&gt;
+    &lt;coord&gt;79..766&lt;/coord&gt;
+    &lt;name&gt;OAZ1&lt;/name&gt;
+    &lt;seq type=&quot;dna&quot; length=&quot;688&quot;&gt;ATG<em> [cut] </em>TAG&lt;/seq&gt;
+   &lt;/gene&gt;
+   &lt;cds id=&quot;NM_004152.2&quot;&gt;
+    &lt;coord&gt;join(79..282,284..766)&lt;/coord&gt;
+    &lt;name&gt;OAZ1&lt;/name&gt;
+    &lt;note&gt;OAZ1 ORF0: 4.8e-55 ORF1: 4.8e-136&lt;/note&gt;
+    &lt;product&gt;Ornithine decarboxylase antizyme 1&lt;/product&gt;
+    &lt;seq type=&quot;prt&quot; length=&quot;228&quot;&gt;MVK<em> [cut] </em>EEE&lt;/seq&gt;
+    &lt;model hmm=&quot;OAZ1_ORF1&quot;&gt;4.8e-136&lt;/model&gt;
+    &lt;model hmm=&quot;OAZ1_ORF0&quot;&gt;4.8e-55&lt;/model&gt;
+   &lt;/cds&gt;
+   &lt;frameshift id=&quot;NM_004152.3&quot; evalue=&quot;0.039&quot;&gt;
+    &lt;psite&gt;TCC&lt;/psite&gt;
+    &lt;asite&gt;TGA&lt;/asite&gt;
+    &lt;downstream&gt;T&lt;/downstream&gt;
+   &lt;/frameshift&gt;
+  &lt;/output&gt;
+ &lt;/sequence&gt;
+&lt;/oafxml&gt;</pre><br />
+        </div>
+      </li>
+      <li>
+        <h2>
+          More complex Query
+        </h2>
+        <div class="section">
+          Very large databases present special problems to automated projects. Bioperl&#39;s ortholog mode addresses this situation. The ortholog mode is a compliant process that retrieves only a subset of sequences before running the OAZ search. The aim is to enable search in very large sequences database without running out of memory and, at the same time, preserving the usability. As a result, from the user&#39;s perspective, using the ortolog mode is almost identical to using the other modes. The principal difference is in the input file must be an amino acid sequence file. Another difference is that input sequence is used as a query against a database of nucleic acids. These differences are illustrated in the following example:<br />
+          <br />
+          Example of FASTA format:
+          <pre class="code">&gt;a_known_oaz_protein
+MINTQDSSILPLSKCPQLQCCRHIVPGPLWCSDAPHPLSKIPGGRGGGRD
+PSLSALIYKDEKLTVTQDLPVNDGKPHIVHFQYEVTEVKVSSWDAVLSSQ
+SLFVEIPDGLLADGSKEGLLALLEFAEEKMKVNYVFICFRKGREDRAPLL
+KTFSFLGFEIVRPGHPCVPSRPDVMFMVYPLDQNLSDED</pre>
+          Example of command-line:
+          <pre class="code">./oaf.pl --expect=2e-5 -r --bank=refseq_rna --ortho=example.aa</pre>
+          Example of result:
+          <pre class="code">&gt;gi|93141218|ref|NM_008753.4|OAZ1
+MVKSSLQRILNSHCFAREKEGDKRSATLHASRTMPLLSQHSRGGCSSESSRVALNCCSNLGPGPRWCSDVPHPPLKIPGG
+RGNSQRDHSLSASILYSDERLNVTEEPTSNDKTRVLSIQSTLTEAKQVTWRAVWSGGGLYIELPAGPLPEGSKDSFAALL
+EFAEEQLQADHVFICFPKNREDRAALLRTFSFLGFEIVRPGHPLVPKRPDACFMVYTLEREDPGEED
+
+&gt;gi|37596299|ref|NM_010952.2|OAZ2
+MINTQDSSILPLSKCPQLQCCRHIVPGPLWCSDAPHPLSKIPGGRGGGRDPSLSALIYKDEKLTVTQDLPVNDGKPHIVH
+FQYEVTEVKVSSWDAVLSSQSLFVEIPDGLLADGSKEGLLALLEFAEEKMKVNYVFICFRKGREDRAPLLKTFSFLGFEI
+VRPGHPCVPSRPDVMFMVYPLDQNLSDED
+
+&gt;gi|8567381|ref|NM_016901.1|OAZ3
+MLPCCYKSITYKEQEDLTLRPHCCLPCSCLPCSCLQCSESLGGLQVGRSTAQEKDHSQLKELYSAGNLTVLSTDPLLHQD
+PVQLDFHFRLTPHSSAHWHGLLCDHRLFLDIPYQALDQGNRESLTATLEYVEEKTNVDSVFVNFQIDRKDRGALLRAFSY
+MGFEVVRPDHPALPPWDNVIFMVYPLERDLGHPGQ
+
+...</pre>
+          As result, oaf.pl uses the NCBI remote blast server, and the &#39;refseq_rna&#39; database to retrieve the putative ortholog sequences. Set the expected value (E-value) at 2e-5.<br />
+          <br />
+        </div>
+      </li>
+      <li>
+        <h2>
+          Authors
+        </h2>
+        <div class="section">
+          This software and documentation are licensed under a Creative Commons Attribution-Noncommercial-Share Alike 3.0 License. To view a copy of this license, visit <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">http://creativecommons.org/licenses/by-nc-sa/3.0/</a> or send a letter to Creative Commons, 543 Howard Street, 5th Floor, San Francisco, California, 94105, USA.<br />
+          <div class="address">
+            <pre>Micha&euml;l Bekaert
+School of Biology and Environmental Science
+University Collele Dublin
+Belfield
+Dublin 4
+Ireland</pre>
+          </div>
+          <div class="address">
+            <pre>Ivaylo P. Ivanov
+Bioscience Institute
+University College Cork
+Cork
+Ireland</pre>
+          </div>
+          <div class="address">
+            <pre>John F. Atkins
+Human Genetics Department
+University of Utah
+Salt Lake City
+Utah
+USA</pre>
+          </div>
+          <div class="address">
+            <pre>Pavel V. Baranov
+Biochemistry Department
+University College Cork
+Cork
+Ireland</pre>
+          </div><br />
+        </div>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+# $Id: INSTALL,v 1.0.6 2008/01/25 02:53:11 Europe/Dublin $
+
+o INSTALLATION
+o SYSTEM REQUIREMENTS
+o INSTALLING OAF
+
+
+o INSTALLATION
+
+  Ornitine decarboxylase Antizyme Finder (OAF) has been installed
+ on many forms of Unix, MacOS X and probably on Win9X/NT/2000/XP.
+
+
+o SYSTEM REQUIREMENTS
+
+ - perl 5.005 or later.
+
+ - Bioperl modules: OAF uses functionality provided
+  in Bioperl modules. (see http://www.bioperl.org/)
+   
+ - HMMER is mandatory since OAF is base on HMM profiles.
+   (see http://hmmer.janelia.org/)
+   
+ - FASTA is mandatory if you plan to use sequence longer than 20 kb.
+   (see ftp://ftp.ebi.ac.uk/pub/software/unix/fasta/)
+
+ - BLAST is mandatory if you plan to search through a database,
+   except if you use the NCBI remote BLAST server.
+   (see http://www.ncbi.nlm.nih.gov/BLAST/download.shtml)
+
+  After installing  HMMER, FASTA and BLAST packages on your system,
+ you may edit the environmental variable $HMMERDIR, $FASTADIR and
+ $BLASTDIR or your $PATH variable to point to the HMMER, FASTA and
+ BLAST directories repectively. Ensure that users have execute
+ privileges for those programs. 
+
+
+o INSTALLING OAF
+
+   The advantage of this approach is it's stepwise, so
+   it's easy to stop and analyse in case of any problem.
+
+   Download, then unpack the tar file. For example:
+
+     bunzip2 oaf-1.0.6.tar.bz2
+     tar xvf oaf-1.0.6.tar
+     cd oaf-1.0.6
+
+   Now issue the make commands:
+
+     perl Makefile.PL
+     make            
+     sudo make install    
+ 
+   To 'make install' you need write permission in the perl5/site_perl/ 
+   source area. Quite often this will require you becoming root, so
+   you will want to talk to your systems manager if you don't have 
+   the necessary privileges.
