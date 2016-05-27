@@ -1,4 +1,4 @@
-# $Id: INSTALL,v 1.0.6 2008/01/25 02:53:11 Europe/Dublin $
+# $id: INSTALL,v 1.0.6 2008/01/25 02:53:11 Europe/Dublin $
 
 o INSTALLATION
 o SYSTEM REQUIREMENTS
@@ -17,16 +17,38 @@ o SYSTEM REQUIREMENTS
 
  - Bioperl modules: OAF uses functionality provided
   in Bioperl modules. (see http://www.bioperl.org/)
+
+   As of May 2016, install BioPerl from CPAN
+
+   cpanm Bio::Perl
    
  - HMMER is mandatory since OAF is base on HMM profiles.
    (see http://hmmer.janelia.org/)
-   
+
+   As of May 2016, check out http://hmmer.org/download.html. You need hmmpfam.
+   In Ubuntu,
+
+   sudo apt-get install hmmer2
+   sudo ln -s /usr/bin/hmm2pfam /usr/local/bin/hmmpfam
+
+   seems to work
+
  - FASTA is mandatory if you plan to use sequence longer than 20 kb.
    (see ftp://ftp.ebi.ac.uk/pub/software/unix/fasta/)
+
+   As of May 2016, see
+   ftp://ftp.ebi.ac.uk/pub/software/unix/fasta/CURRENT/
 
  - BLAST is mandatory if you plan to search through a database,
    except if you use the NCBI remote BLAST server.
    (see http://www.ncbi.nlm.nih.gov/BLAST/download.shtml)
+
+   As of May 2016, use the blast+ programs at
+   ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
+
+   In Ubuntu,
+   
+   sudo apt-get install ncbi-blast+
 
   After installing  HMMER, FASTA and BLAST packages on your system,
  you may edit the environmental variable $HMMERDIR, $FASTADIR and
